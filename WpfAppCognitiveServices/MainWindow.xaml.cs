@@ -16,7 +16,9 @@ namespace WpfAppCognitiveServices
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IFaceServiceClient objFaceServiceCilent = new FaceServiceClient("4748953b467e4bd48b6ac5a5b267cf6f");
+        private static string clientKey = "";
+
+        private readonly IFaceServiceClient objFaceServiceCilent = new FaceServiceClient(clientKey);
 
         private List<Guid> faceIds = new List<Guid>();
 
