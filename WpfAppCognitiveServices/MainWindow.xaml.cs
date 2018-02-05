@@ -18,7 +18,7 @@ namespace WpfAppCognitiveServices
     {
         private static string clientKey = "";
 
-        private readonly IFaceServiceClient objFaceServiceCilent = new FaceServiceClient(clientKey);
+        private readonly IFaceServiceClient objFaceServiceCilent = new FaceServiceClient(clientKey, "https://virginia.api.cognitive.microsoft.us/face/v1.0");
 
         private List<Guid> faceIds = new List<Guid>();
 
@@ -99,7 +99,7 @@ namespace WpfAppCognitiveServices
 
                 var i = 1;
 
-                foreach(var face in faces)
+                foreach (var face in faces)
                 {
                     imgAttributes.Text += string.Format("Face {0} - {4}{2}Gender: {3} Age: {1}{2}{2}", i, face.FaceAttributes.Age, Environment.NewLine, face.FaceAttributes.Gender, face.FaceId.ToString());
                     faceIds.Add(face.FaceId);
@@ -114,9 +114,9 @@ namespace WpfAppCognitiveServices
             {
                 using (Stream imageFileStream = File.OpenRead(imageFilePath))
                 {
-                    var requiredFaceAttributes = new FaceAttributeType[] { FaceAttributeType.Age, FaceAttributeType.Gender, FaceAttributeType.Accessories };
+                    var requiredFaceAttributes = new FaceAttributeType[] { FaceAttributeType.Age, FaceAttributeType.Gender };
                     var faces = await objFaceServiceCilent.DetectAsync(imageFileStream, true, false, requiredFaceAttributes);
-                    
+
                     return faces.ToArray();
                 }
             }
@@ -160,7 +160,7 @@ namespace WpfAppCognitiveServices
                 {
                     var vResult = await objFaceServiceCilent.VerifyAsync(fid, face.FaceId);
 
-                    if(vResult.IsIdentical)
+                    if (vResult.IsIdentical)
                     {
                         imgAttributes.Text += string.Format("Positive face match on ID {0}{2}Confidence: {1}{2}{2}", fid.ToString(), vResult.Confidence.ToString(), Environment.NewLine);
                         isMatched = true;
